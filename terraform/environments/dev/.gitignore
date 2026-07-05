@@ -1,0 +1,10 @@
+*.exe
+# Terraform internal files
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+
+# Ignore sensitive or local files
+*.zip
+node_modules/
