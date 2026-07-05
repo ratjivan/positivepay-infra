@@ -1,3 +1,8 @@
+module "iam" {
+  source      = "../../modules/iam"
+  environment = "dev"
+}
+
 module "reports_bucket" {
 
   source = "../../modules/s3"
@@ -37,6 +42,7 @@ module "dynamodb" {
   enable_pitr = true
 
 }
+
 
 module "generate_reports_lambda" {
   source = "../../modules/lambda"
@@ -100,18 +106,14 @@ module "reconciliation_worker_lambda" {
   source = "../../modules/lambda"
 
   function_name = "dev-reconciliation-worker"
-
-  handler = "index.handler"
+  handler       = "index.handler"
 
   role_arn = module.iam.lambda_role_arn
 
   s3_bucket = "lambda-code-bucket"
+  s3_key    = "reconciliation-worker.zip"
 
-  s3_key = "reconciliation-worker.zip"
-
-  environment_variables = {
-    ENV = "dev"
-  }
+  sqs_arn = module.reconciliation_queue.queue_arn
 }
 
 module "deposit_worker_lambda" {
@@ -154,18 +156,12 @@ module "notification_lambda" {
   source = "../../modules/lambda"
 
   function_name = "dev-notification"
-
-  handler = "index.handler"
+  handler       = "index.handler"
 
   role_arn = module.iam.lambda_role_arn
 
   s3_bucket = "lambda-code-bucket"
-
-  s3_key = "notification.zip"
-
-  environment_variables = {
-    ENV = "dev"
-  }
+  s3_key    = "notification.zip"
 }
 
 module "scheduled_trigger_lambda" {
