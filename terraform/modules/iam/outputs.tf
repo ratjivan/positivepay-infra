@@ -1,0 +1,17 @@
+output "lambda_role_arn" {
+
+  value = aws_iam_role.lambda_role.arn
+
+}
+
+output "step_function_role_arn" {
+
+  value = aws_iam_role.step_function_role.arn
+
+}
+
+output "scheduler_role_arn" {
+
+  value = aws_iam_role.scheduler_role.arn
+
+}
