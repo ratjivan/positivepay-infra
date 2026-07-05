@@ -106,14 +106,14 @@ module "reconciliation_worker_lambda" {
   source = "../../modules/lambda"
 
   function_name = "dev-reconciliation-worker"
-  handler       = "index.handler"
 
   role_arn = module.iam.lambda_role_arn
 
-  s3_bucket = "lambda-code-bucket"
-  s3_key    = "reconciliation-worker.zip"
-
-  sqs_arn = module.reconciliation_queue.queue_arn
+  sqs_arn    = module.reconciliation_queue.queue_arn
+  enable_sqs = true
+  handler    = "index.handler"
+  s3_bucket  = module.reports_bucket.bucket_name
+  s3_key     = "notification.zip"
 }
 
 module "deposit_worker_lambda" {
@@ -157,11 +157,12 @@ module "notification_lambda" {
 
   function_name = "dev-notification"
   handler       = "index.handler"
+  s3_bucket     = module.reports_bucket.bucket_name
+  s3_key        = "notification.zip"
 
   role_arn = module.iam.lambda_role_arn
 
-  s3_bucket = "lambda-code-bucket"
-  s3_key    = "notification.zip"
+  enable_sqs = false
 }
 
 module "scheduled_trigger_lambda" {
