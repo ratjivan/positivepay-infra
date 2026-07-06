@@ -90,7 +90,7 @@ resource "aws_s3_bucket_policy" "frontend" {
 resource "null_resource" "cloudfront_invalidation" {
 
   triggers = {
-     file_hash = filemd5("${path.root}/files/index.html")
+     file_hash = filemd5("${path.root}/../../files/index.html")
     #file_hash = filemd5("${path.root}/../../frontend/index.html")
   }
 
