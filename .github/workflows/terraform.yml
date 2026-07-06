@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+concurrency:
+  group: terraform-dev
+  cancel-in-progress: false
+
 jobs:
   terraform:
     runs-on: ubuntu-latest
