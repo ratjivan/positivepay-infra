@@ -9,25 +9,17 @@ resource "aws_dynamodb_table" "table" {
     type = "S"
   }
 
+  # ✅ ENABLE POINT IN TIME RECOVERY (CORRECT WAY)
+  point_in_time_recovery {
+    enabled = true
+  }
+
+  # ✅ SERVER SIDE ENCRYPTION (CORRECT WAY)
+  server_side_encryption {
+    enabled = true
+  }
+
   tags = {
     Environment = var.environment
   }
-
 }
-
-resource "aws_dynamodb_table_point_in_time_recovery" "pitr" {
-
-  count = var.enable_pitr ? 1 : 0
-
-  table_name = aws_dynamodb_table.table.name
-
-}
-
-resource "aws_dynamodb_table_server_side_encryption" "encryption" {
-
-  table_name = aws_dynamodb_table.table.name
-
-  enabled    = true
-
-}
-

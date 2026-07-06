@@ -12,9 +12,8 @@ resource "aws_lambda_function" "this" {
 
   memory_size   = var.memory_size
 
-  s3_bucket     = var.s3_bucket
-
-  s3_key        = var.s3_key
+  filename         = "${path.module}/sample.zip"
+  source_code_hash = filebase64sha256("${path.module}/sample.zip")
 
   environment {
 
@@ -34,13 +33,12 @@ resource "aws_cloudwatch_log_group" "logs" {
 
 resource "aws_lambda_event_source_mapping" "sqs_trigger" {
 
-  event_source_arn = var.sqs_arn
+  count = var.enable_sqs ? 1 : 0
 
+  event_source_arn = var.sqs_arn
   function_name    = aws_lambda_function.this.arn
 
-  batch_size       = 10
-
-  enabled          = true
-
+  batch_size = 10
+  enabled    = true
 }
 

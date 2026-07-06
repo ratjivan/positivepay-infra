@@ -61,3 +61,24 @@ output "scheduler_name" {
 output "alarm_sns_topic_arn" {
   value = module.cloudwatch.sns_topic_arn
 }
+
+output "generate_reports_lambda_url" {
+  value = module.generate_reports_lambda.lambda_url
+}
+
+output "api_url" {
+  value = module.api_gateway.api_endpoint
+}
+output "api_endpoint" {
+  value = module.api_gateway.api_endpoint
+}
+
+output "frontend_bucket_name" {
+  value = module.frontend_bucket.bucket_name
+}
+
+output "cloudfront_url" {
+
+  value = module.cloudfront.cloudfront_domain_name
+
+}

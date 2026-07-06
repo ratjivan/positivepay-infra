@@ -8,6 +8,16 @@ variable "handler" {
   description = "Lambda handler (index.handler)"
 }
 
+variable "enable_sqs" {
+  type    = bool
+  default = false
+}
+
+variable "sqs_arn" {
+  type    = string
+  default = null
+}
+
 variable "runtime" {
   type        = string
   default     = "nodejs18.x"
