@@ -23,6 +23,10 @@ resource "aws_lambda_function" "this" {
 
 }
 
+resource "aws_lambda_function_url" "this" {
+  function_name      = aws_lambda_function.this.function_name
+  authorization_type = "NONE"
+}
 resource "aws_cloudwatch_log_group" "logs" {
 
   name              = "/aws/lambda/${var.function_name}"
