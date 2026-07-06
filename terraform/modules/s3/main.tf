@@ -50,37 +50,28 @@ resource "aws_s3_bucket_public_access_block" "public_access" {
 }
 
 resource "aws_s3_bucket_lifecycle_configuration" "lifecycle" {
-
   bucket = aws_s3_bucket.bucket.id
 
+  # Existing rule
   rule {
-
-    id = "cleanup"
-
+    id     = "cleanup"
     status = "Enabled"
 
     filter {}
 
     noncurrent_version_expiration {
-
       noncurrent_days = 90
-
     }
-
   }
 
-}
-
-resource "aws_s3_bucket" "logs" {
-  bucket = var.bucket_name
-}
-
-resource "aws_s3_bucket_lifecycle_configuration" "logs_lifecycle" {
-  bucket = aws_s3_bucket.logs.id
-
+  # New rule for logs
   rule {
-    id     = "delete-after-2-days"
+    id     = "delete-logs"
     status = "Enabled"
+
+    filter {
+      prefix = "logs/"
+    }
 
     expiration {
       days = 2
