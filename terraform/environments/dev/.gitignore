@@ -8,3 +8,4 @@ crash.log
 # Ignore sensitive or local files
 *.zip
 node_modules/
+.terraform.lock.hcl

@@ -234,3 +234,26 @@ module "cloudwatch" {
   ]
 }
 
+module "api_gateway" {
+  source = "../../modules/apigateway"
+
+  api_name = "account-reconciliation-dev-api"
+
+  generate_reports_lambda_invoke_arn = module.generate_reports_lambda.lambda_invoke_arn
+  generate_reports_lambda_name       = module.generate_reports_lambda.lambda_name
+}
+
+module "frontend_bucket" {
+  source = "../../modules/s3_frontend"
+
+  bucket_name = "account-reconciliation-dev-frontend"
+  environment = "dev"
+}
+
+module "cloudfront" {
+  source = "../../modules/cloudfront"
+
+  bucket_name                 = module.frontend_bucket.bucket_name
+  bucket_arn                  = module.frontend_bucket.bucket_arn
+  bucket_regional_domain_name = module.frontend_bucket.bucket_regional_domain_name
+}
