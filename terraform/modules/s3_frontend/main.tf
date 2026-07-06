@@ -10,10 +10,10 @@ resource "aws_s3_bucket" "frontend" {
 resource "aws_s3_object" "index" {
   bucket       = aws_s3_bucket.frontend.id
   key          = "index.html"
-  source       = "C:/Users/DELL/Pictures/index.html"
+  source       = "${path.root}/../../files/index.html"
   #source      = "${path.root}/../../frontend/index.html"
   content_type = "text/html"
-  etag         = filemd5("C:/Users/DELL/Pictures/index.html")
+  etag         = filemd5("${path.root}/../../files/index.html")
 
   #etag = filemd5("${path.root}/../../frontend/index.html")
 }
