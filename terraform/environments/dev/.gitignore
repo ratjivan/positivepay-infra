@@ -9,3 +9,4 @@ crash.log
 *.zip
 node_modules/
 .terraform.lock.hcl
+!terraform/modules/lambda/sample.zip

@@ -9,7 +9,6 @@ on:
 jobs:
   terraform:
     runs-on: ubuntu-latest
-    environment: dev
 
     steps:
       - name: Checkout code
@@ -46,4 +45,8 @@ jobs:
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main'
         working-directory: terraform/environments/dev
-        run: terraform apply -auto-approve
+        run: terraform apply -auto-approve | tee terraform.log
+
+      - name: Upload logs to S3
+        run: |
+          aws s3 cp terraform/environments/dev/terraform.log s3://account-reconciliation-dev-uploads/github-actions/
