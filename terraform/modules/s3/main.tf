@@ -71,3 +71,19 @@ resource "aws_s3_bucket_lifecycle_configuration" "lifecycle" {
 
 }
 
+resource "aws_s3_bucket" "logs" {
+  bucket = var.bucket_name
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "logs_lifecycle" {
+  bucket = aws_s3_bucket.logs.id
+
+  rule {
+    id     = "delete-after-2-days"
+    status = "Enabled"
+
+    expiration {
+      days = 2
+    }
+  }
+}
